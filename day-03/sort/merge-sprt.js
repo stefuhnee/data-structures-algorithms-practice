@@ -9,14 +9,18 @@
 // pointers to left and right are compared, push lower to array (prefer left), advance lower pointer until one empties, concat the non-empty.
 
 function mergeSort(arr) {
+  console.log('merge sort called');
   let mid = Math.floor(arr.length / 2);
-  console.log('mid', mid);
+  let arrayLeft = arr.slice(0, mid);
+  let arrayRight = arr.slice(mid);
   while (arr.length > 1) {
-    merge(mergeSort(arr.slice(0, mid), mergeSort(arr.slice(mid, arr.length))));
+    return merge(mergeSort(arrayLeft), mergeSort(arrayRight));
   }
+  return arr;
 }
 
 function merge(leftArray, rightArray) {
+  console.log('merge called');
   console.log(leftArray, 'leftArray');
   console.log(rightArray, 'rightArray');
   let leftPointer = 0;
@@ -24,22 +28,9 @@ function merge(leftArray, rightArray) {
   let leftValue;
   let rightValue;
   let mergedArray = [];
-  let longerArray;
-  let shorterArray;
 
-  if (leftArray && leftArray.length >= rightArray.length) {
-    longerArray = leftArray;
-    shorterArray = rightArray;
-  } else {
-    longerArray = rightArray;
-    shorterArray = leftArray;
-  }
 
-  for (let i = 0; i < longerArray.length; i++) {
-    if (!shorterArray[i]) {
-      mergedArray.concat(longerArray.slice(i));
-      break;
-    }
+  while (leftPointer < leftArray.length && rightPointer < rightArray.length) {
     leftValue = leftArray[leftPointer];
     rightValue = rightArray[rightPointer];
     if (leftValue <= rightValue) {
@@ -50,7 +41,14 @@ function merge(leftArray, rightArray) {
       rightPointer++;
     }
   }
+
+  if (!leftArray[leftPointer]) mergedArray = mergedArray.concat(rightArray.slice(rightPointer));
+  if (!rightArray[rightPointer]) mergedArray = mergedArray.concat(leftArray.slice(leftPointer));
+
+  console.log('merged array', mergedArray)
   return mergedArray;
 }
 
-console.log(mergeSort([3,4,1,9,3,233,11]));
+let testArray1 = [1, 72, 18, -5, 12, 360, 7];
+
+console.log(mergeSort(testArray1));
