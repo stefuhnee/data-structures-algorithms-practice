@@ -25,12 +25,14 @@ function findSum(tree, target) {
   function traverse(node, currentSum) {
     console.log(tree);
     node.aggregatedSum = currentSum + node.value; //work with it.
+    currentSum += node.value;
+    console.log('currentSum', currentSum);
+
+
     if (node.aggregatedSum === target) {
       return;
     }
 
-    currentSum += node.value;
-    console.log('currentSum', currentSum);
     if (!node.left && !node.right) {
       node.insideValidPath = false;
       return [];
