@@ -2,7 +2,6 @@
 
 const Node = module.exports = function(value, inputs) {
   this.value = value || null;
-  this.inputs = inputs || null;
   this.left = null;
   this.right = null;
 };

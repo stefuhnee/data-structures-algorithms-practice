@@ -21,16 +21,18 @@ const BST = require('../trees/bst');
 // if multiple paths, would need to store a path ID.
 
 function findSum(tree, target) {
+  tree.root.insideValidPath = true;
+  let path = [];
 
   function traverse(node, currentSum) {
-    console.log(tree);
+    // console.log(tree);
     node.aggregatedSum = currentSum + node.value; //work with it.
     currentSum += node.value;
     console.log('currentSum', currentSum);
 
 
     if (node.aggregatedSum === target) {
-      return;
+      return getPath(tree.root);
     }
 
     if (!node.left && !node.right) {
@@ -57,22 +59,34 @@ function findSum(tree, target) {
       traverse(node.left, currentSum);
     }
     if (node.right) {
-      node.left.insideValidPath = true;
+      node.right.insideValidPath = true;
       traverse(node.right, currentSum);
+    }
+  }
+
+// while we
+
+  function getPath(node) {
+    path.push(node.value);
+    if (node.left && node.left.insideValidPath) getPath(node.left);
+    if (node.right && node.right.insideValidPath) getPath(node.right);
+    if (node.insideValidPath && node.aggregatedSum === target) {
+      console.log('path', path);
+      return path;
     }
   }
 
   return traverse(tree.root, 0);
 }
 
+
 let myBST = new BST();
 myBST.addNodeWithValue(10);
 myBST.addNodeWithValue(8);
-myBST.addNodeWithValue(10);
+myBST.addNodeWithValue(11);
 myBST.addNodeWithValue(7);
 myBST.addNodeWithValue(9);
 myBST.addNodeWithValue(4);
-myBST.addNodeWithValue(11);
 myBST.addNodeWithValue(19);
 myBST.addNodeWithValue(10);
 

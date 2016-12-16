@@ -26,6 +26,11 @@ Note it doesn't have to be a squre matrix.
 // print left at the second to last row
 // print up the second to first column.
 
+// define horizontal start, end, vertical start, end.
+// define cases (up, down, right, left) and how far you go.
+
+
+
 function spiralize(inputArr) {
   for (let i = 0; i < inputArr.length; i++) {
     let row = inputArr[i];
