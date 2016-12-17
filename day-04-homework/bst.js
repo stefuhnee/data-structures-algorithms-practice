@@ -23,13 +23,15 @@ const BST = require('../trees/bst');
 function findSum(tree, target) {
   let aggregatedSum;
   let targetFound = false;
+  let terminalNode;
   let path = [];
 
   function getSum(node, currentSum) {
-    if (targetFound) return;
+    // if (targetFound) return;
     aggregatedSum = currentSum + node.value;
     if (aggregatedSum === target) {
       targetFound = true;
+      terminalNode = node;
       return findPath(tree.root, node);
     }
 
@@ -37,26 +39,23 @@ function findSum(tree, target) {
     if (node.right) getSum(node.right, aggregatedSum);
     else {
       aggregatedSum -= node.value;
-      return;
     }
   }
 
-// while we
-  //
-  function findPath(currentNode, terminalNode) {
+  function findPath(currentNode) {
     if (terminalNode.value < currentNode.value) {
       path.push(currentNode.value);
-      return findPath(currentNode.left, terminalNode);
+      return findPath(currentNode.left);
     }
     if (terminalNode.value > currentNode.value) {
       path.push(currentNode.value);
-      return findPath(currentNode.right, terminalNode);
+      return findPath(currentNode.right);
     }
     path.push(currentNode.value);
-    return path;
   }
 
-  return getSum(tree.root, 0);
+  getSum(tree.root, 0);
+  return path;
 }
 
 
@@ -70,4 +69,4 @@ myBST.addNodeWithValue(4);
 myBST.addNodeWithValue(19);
 myBST.addNodeWithValue(10);
 
-console.log(findSum(myBST, 27));
+console.log(findSum(myBST, 40));
