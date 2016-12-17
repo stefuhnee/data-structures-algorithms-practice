@@ -22,61 +22,41 @@ const BST = require('../trees/bst');
 
 function findSum(tree, target) {
   tree.root.insideValidPath = true;
-  let path = [];
+  let path = []
 
-  function traverse(node, currentSum) {
-    // console.log(tree);
+  function getSum(node, currentSum) {
+    path.push(node.value);
+    node.insideValidPath = true;
     node.aggregatedSum = currentSum + node.value; //work with it.
     currentSum += node.value;
+    console.log('node value', node.value);
     console.log('currentSum', currentSum);
 
-
     if (node.aggregatedSum === target) {
-      return getPath(tree.root);
+      return findPath(tree.root);
     }
 
-    if (!node.left && !node.right) {
-      node.insideValidPath = false;
-      return [];
-    }
-
-    if(node.aggregatedSum > target) {
-      node.insideValidPath = false;
-      return [];
-    }
-
-    if (node.left && currentSum === target) {
+    if (node.left && node.aggregatedSum < target) {
       node.left.insideValidPath = true;
-      return;
+      getSum(node.left, currentSum);
     }
-    if (node.right && currentSum === target) {
+    if (node.right && node.aggregatedSum < target) {
       node.right.insideValidPath = true;
-      return;
-    }
-
-    if (node.left) {
-      node.left.insideValidPath = true;
-      traverse(node.left, currentSum);
-    }
-    if (node.right) {
-      node.right.insideValidPath = true;
-      traverse(node.right, currentSum);
+      getSum(node.right, currentSum);
     }
   }
 
 // while we
-
-  function getPath(node) {
-    path.push(node.value);
-    if (node.left && node.left.insideValidPath) getPath(node.left);
-    if (node.right && node.right.insideValidPath) getPath(node.right);
-    if (node.insideValidPath && node.aggregatedSum === target) {
-      console.log('path', path);
-      return path;
-    }
+  //
+  function findPath(node) {
+    let path = [];
+    if (node.left && node.left.insideValidPath) findPath(node.left);
+    if (node.right && node.right.insideValidPath) findPath(node.right);
+      path.push(node.value);
+      console.log('path', path)
   }
 
-  return traverse(tree.root, 0);
+  return getSum(tree.root, 0);
 }
 
 
