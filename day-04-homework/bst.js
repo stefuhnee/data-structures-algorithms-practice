@@ -21,41 +21,39 @@ const BST = require('../trees/bst');
 // if multiple paths, would need to store a path ID.
 
 function findSum(tree, target) {
-  let aggregatedSum;
-  let targetFound = false;
-  let terminalNode;
+
   let path = [];
 
   function getSum(node, currentSum) {
-    // if (targetFound) return;
-    aggregatedSum = currentSum + node.value;
-    if (aggregatedSum === target) {
-      targetFound = true;
-      terminalNode = node;
-      return findPath(tree.root, node);
+    console.log('value', node.value);
+    console.log('current sum', currentSum);
+    node.aggregatedSum = currentSum + node.value;
+    console.log('agg sum', node.aggregatedSum)
+    if (node.aggregatedSum === target) {
+      node.validPath = true;
+      return true;
     }
-
-    if (node.left) getSum(node.left, aggregatedSum);
-    if (node.right) getSum(node.right, aggregatedSum);
-    else {
-      aggregatedSum -= node.value;
-    }
+    if (!node.validPath && node.left) node.validPath = getSum(node.left, node.aggregatedSum);
+    if (!node.validPath && node.right) node.validPath = getSum(node.right, node.aggregatedSum);
+    return node.validPath;
   }
 
-  function findPath(currentNode) {
-    if (terminalNode.value < currentNode.value) {
-      path.push(currentNode.value);
-      return findPath(currentNode.left);
+  function findPath(node) {
+    while (node && node.validPath) {
+      console.log('node value in path', node.value)
+      path.push(node.value);
+      if (node.left && node.left.validPath) node = node.left;
+      else if (node.right && node.right.validPath) node = node.right;
+      else node = null;
     }
-    if (terminalNode.value > currentNode.value) {
-      path.push(currentNode.value);
-      return findPath(currentNode.right);
-    }
-    path.push(currentNode.value);
+    return path;
   }
 
-  getSum(tree.root, 0);
-  return path;
+  if (getSum(tree.root, 0)) {
+    console.log('hit');
+    return findPath(tree.root);
+  }
+  return false;
 }
 
 
@@ -69,4 +67,4 @@ myBST.addNodeWithValue(4);
 myBST.addNodeWithValue(19);
 myBST.addNodeWithValue(10);
 
-console.log(findSum(myBST, 40));
+console.log(findSum(myBST, 24));

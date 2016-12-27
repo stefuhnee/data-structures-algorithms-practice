@@ -7,9 +7,9 @@ const Node = module.exports = function(value, inputs) {
 };
 
 Node.prototype.addNodeWithValue = function(value) {
-  // check if the value is the current value
-  if (value === this.value) return this;
-  // if so, do nothing
+  // // check if the value is the current value
+  // if (value === this.value) return this;
+  // // if so, do nothing
   if (value < this.value) {
     if (this.left) return this.left.addNodeWithValue(value);
     this.left = new Node(value);
