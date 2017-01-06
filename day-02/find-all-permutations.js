@@ -25,11 +25,12 @@
     - cab
 */
 
-function findPermutations(strArr) {
+function findPermutations(str) {
+  str = str.split('');
   let permArray = [];
   // base case: if we're at the final character of the string.
   // split string into "start" and "rest"
-  perm('', strArr);
+  perm('', str);
 
   function perm(prefix, suffix) {
     // ONLY PERMUTING SUFFIX
@@ -55,7 +56,7 @@ function findPermutations(strArr) {
   return permArray;
 }
 
-console.log(findPermutations(['a','b','c']));
+console.log(findPermutations('abc'));
 
 //
 //
