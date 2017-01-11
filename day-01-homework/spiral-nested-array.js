@@ -29,14 +29,49 @@ Note it doesn't have to be a squre matrix.
 // define horizontal start, end, vertical start, end.
 // define cases (up, down, right, left) and how far you go.
 
+function spiralize(matrix) {
+  let row = 0;
+  let col = 0;
+  let right = matrix[0].length;
+  let down = matrix.length - 1;
+  let left = right - 1;
+  let up = down - 1;
 
+  while (right > 0 || down > 0 || left > 0 || up > 0) {
+    moveRight();
+    moveDown();
+    moveLeft();
+    moveUp();
+  }
 
-function spiralize(inputArr) {
-  for (let i = 0; i < inputArr.length; i++) {
-    let row = inputArr[i];
-    for (let j = 0; j < row.length; j++) {
-      let value = row[j];
-      let column = j;
-    }
+  function moveRight() {
+    for (let i = 0; i < right; col++, i++) console.log(matrix[row][col]);
+    right -= 2;
+    row++;
+    col--;
+  }
+
+  function moveDown() {
+    for (let i = 0; i < down; row++, i++) console.log(matrix[row][col]);
+    down -= 2;
+    col--;
+    row--;
+  }
+
+  function moveLeft() {
+    for (let i = 0; i < left; col--, i++) console.log(matrix[row][col]);
+    left -= 2;
+    row--;
+    col++;
+  }
+
+  function moveUp() {
+    for (let i = 0; i < up; row--, i++) console.log(matrix[row][col]);
+    up -= 2;
+    col++;
+    row++;
   }
 }
+
+
+spiralize([[1,5,6,18],[2,4,8,10],[3,4,1,13],[5,13,11,20]]);

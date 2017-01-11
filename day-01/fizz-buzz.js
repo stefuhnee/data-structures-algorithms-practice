@@ -20,5 +20,5 @@ fizzBuzz({
 });
 
 describe('testing fizzBuzz', function() {
-
+  it('should print word associated with the number', )
 })
