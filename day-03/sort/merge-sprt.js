@@ -44,8 +44,7 @@ function merge(leftArray, rightArray) {
     }
   }
 
-  if (!leftArray[leftPointer]) mergedArray = mergedArray.concat(rightArray.slice(rightPointer));
-  if (!rightArray[rightPointer]) mergedArray = mergedArray.concat(leftArray.slice(leftPointer));
+  mergedArray = !leftArray[leftPointer] ? mergedArray.concat(rightArray.slice(rightPointer)) : mergedArray.concat(leftArray.slice(leftPointer));
 
   console.log('merged array', mergedArray)
   return mergedArray;
