@@ -15,4 +15,4 @@ function findCoins(sum) {
   return output;
 }
 
-console.log(findCoins(25));
+console.log(findCoins(7));
